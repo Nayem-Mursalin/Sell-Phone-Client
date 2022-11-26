@@ -7,10 +7,19 @@ const Login = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
     const [loginError, setLoginError] = useState('');
 
-    const { } = useContext(AuthContext);
+    const { signIn } = useContext(AuthContext);
 
     const handleLogIn = (data) => {
-        console.log(data);
+        setLoginError('');
+        signIn(data.email, data.password)
+            .then(res => {
+                const user = res.user;
+                console.log(user)
+            })
+            .catch(error => {
+                console.log(error);
+                setLoginError(error.message);
+            });
     }
     return (
         <div className='h-[800px] flex justify-center items-center'>

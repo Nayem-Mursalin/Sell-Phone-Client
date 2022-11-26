@@ -5,19 +5,20 @@ import { AuthContext } from '../../contexts/AuthProvider';
 
 const SignUp = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
-    const [loginError, setLoginError] = useState('');
+    const [signUpError, setSignUpError] = useState('');
 
     const { createUser } = useContext(AuthContext);
 
     const handleSignIn = (data) => {
-        console.log(data);
+        setSignUpError('');
         createUser(data.email, data.password)
             .then(res => {
                 const user = res.user;
                 console.log(user)
             })
             .catch(error => {
-                console.log(error)
+                console.log(error);
+                setSignUpError(error.message)
             });
     }
 
@@ -62,7 +63,7 @@ const SignUp = () => {
                     </div>
                     <input className='btn btn-accent w-full mt-4' value="SignUp" type="submit" />
                     <div>
-                        {loginError && <p className='text-red-600'>{loginError}</p>}
+                        {signUpError && <p className='text-red-600'>{signUpError}</p>}
                     </div>
                 </form>
                 <br></br>

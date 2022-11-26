@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import app from '../firebase/firebase.config';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updateProfile, signOut, getAuth } from 'firebase/auth';
 
@@ -7,6 +7,7 @@ const auth = getAuth(app);
 
 
 const AuthProvider = ({ children }) => {
+    const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
     const createUser = (email, password) => {
@@ -25,10 +26,21 @@ const AuthProvider = ({ children }) => {
         return signOut(auth);
     }
 
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, currentUser => {
+            console.log('User is Observing');
+            setUser(currentUser);
+            setLoading(false);
+        });
+        return () => unsubscribe();
+    }, [])
+
     const authInfo = {
         createUser,
         signIn,
         logOut,
+        user,
     }
 
     return (
