@@ -1,13 +1,16 @@
 import React, { useContext, useState } from 'react';
 import { useForm } from "react-hook-form";
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthProvider';
 
 const Login = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
     const [loginError, setLoginError] = useState('');
+    const { signIn, googleSignIn, googleProvider } = useContext(AuthContext);
+    const location = useLocation();
+    const navigate = useNavigate();
 
-    const { signIn } = useContext(AuthContext);
+    const from = location.state?.from?.pathname || '/';
 
     const handleLogIn = (data) => {
         setLoginError('');
@@ -21,6 +24,16 @@ const Login = () => {
                 setLoginError(error.message);
             });
     }
+
+    const handlegoogleSignin = (provider) => {
+        googleSignIn(googleProvider)
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+            })
+            .catch(err => console.error(err));
+    }
+
     return (
         <div className='h-[800px] flex justify-center items-center'>
             <div className='w-96 p-7'>
@@ -51,7 +64,7 @@ const Login = () => {
                 <br></br>
                 <p>New to Sell Phone? <Link className='text-secondary' to="/signup">Create a new Account</Link></p>
                 <div className="divider">OR</div>
-                <button className='btn btn-outline w-full'>CONTINUE WITH GOOGLE</button>
+                <button onClick={handlegoogleSignin} className='btn btn-outline w-full'>CONTINUE WITH GOOGLE</button>
             </div>
         </div>
     );

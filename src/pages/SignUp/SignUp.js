@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { useForm } from "react-hook-form";
+import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthProvider';
 
@@ -7,19 +8,37 @@ const SignUp = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
     const [signUpError, setSignUpError] = useState('');
 
-    const { createUser } = useContext(AuthContext);
+    const { createUser, updateUser, googleSignIn, googleProvider } = useContext(AuthContext);
 
     const handleSignIn = (data) => {
         setSignUpError('');
         createUser(data.email, data.password)
             .then(res => {
                 const user = res.user;
-                console.log(user)
+                console.log(user);
+                toast('User Created Successfully');
+                const userInfo = {
+                    displayName: data.name
+                }
+                updateUser(userInfo)
+                    .then(() => {
+                        // saveUser(data.name, data.email);
+                    })
+                    .catch(error => console.log(error))
             })
             .catch(error => {
                 console.log(error);
                 setSignUpError(error.message)
             });
+    }
+
+    const handlegoogleSignin = (provider) => {
+        googleSignIn(googleProvider)
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+            })
+            .catch(err => console.error(err));
     }
 
     return (
@@ -69,7 +88,7 @@ const SignUp = () => {
                 <br></br>
                 <p>Already have an Account? <Link className='text-secondary' to="/login">Please Login</Link></p>
                 <div className="divider">OR</div>
-                <button className='btn btn-outline w-full'>CONTINUE WITH GOOGLE</button>
+                <button onClick={handlegoogleSignin} className='btn btn-outline w-full'>CONTINUE WITH GOOGLE</button>
             </div>
         </div>
     );
