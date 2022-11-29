@@ -1,13 +1,14 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const CategoryItem = ({ category }) => {
-    const { name, description, bgClass } = category;
+const CategoryItem = ({ product }) => {
+    const { _id, category, categoryImg } = product;
     return (
-        <div className={`p-6 card md:card-side shadow-xl text-white ${bgClass}`}>
-            <figure><img src='' alt="Phone" /></figure>
+        <div className={`p-6 card md:card-side shadow-xl`}>
+            <figure><img src={categoryImg} alt="Phone" /></figure>
             <div className="card-body">
-                <h2 className="card-title">{name}</h2>
-                <p>{description}</p>
+                <h2 className="card-title">{category}</h2>
+                <button><Link to={`/products/${_id}`}>View All</Link></button>
             </div>
         </div>
     );
