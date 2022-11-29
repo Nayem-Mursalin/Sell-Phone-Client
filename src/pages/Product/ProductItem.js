@@ -2,9 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import ProductModal from './ProductModal/ProductModal';
 
-const ProductItem = ({ product }) => {
-    const { _id, product_name, seller_name, older_price, new_price, picture, year_of_use, email, phone, address, time_of_post, about } = product;
-    // console.log(product);
+const ProductItem = ({ product, productDetail, setProductDetail }) => {
+    const { product_name, seller_name, older_price, new_price, picture, year_of_use, email, phone, address, time_of_post, about } = product;
+    console.log(productDetail);
     return (
         <div className="card w-96 bg-base-100 shadow-xl">
             <figure className="px-10 pt-10">
@@ -20,11 +20,15 @@ const ProductItem = ({ product }) => {
                 <p>Year of Use: {year_of_use}</p>
                 <p>Address: {address}</p>
                 <p>Time of Post: {time_of_post}</p>
-                <div className="card-actions">
-                    <label htmlFor="product-modal" className="btn btn-primary text-white">Buy Now</label>
+                <div className="card-actions rounded">
+                    <label
+                        htmlFor="product-modal"
+                        className="btn btn-primary text-white"
+                        onClick={() => { setProductDetail(product) }}
+                    >Buy Now</label>
                 </div>
             </div>
-            <ProductModal></ProductModal>
+
         </div>
     );
 };

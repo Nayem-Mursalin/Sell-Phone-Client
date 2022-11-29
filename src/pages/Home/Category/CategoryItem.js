@@ -8,7 +8,7 @@ const CategoryItem = ({ product }) => {
             <figure><img src={categoryImg} alt="Phone" /></figure>
             <div className="card-body">
                 <h2 className="card-title">{category}</h2>
-                <button><Link to={`/products/${_id}`}>View All</Link></button>
+                <button><Link to={`/category/${_id}`}>View All</Link></button>
             </div>
         </div>
     );
