@@ -4,7 +4,7 @@ import ProductModal from './ProductModal/ProductModal';
 
 const ProductItem = ({ product, productDetail, setProductDetail }) => {
     const { product_name, seller_name, older_price, new_price, picture, year_of_use, email, phone, address, time_of_post, about } = product;
-    console.log(productDetail);
+    // console.log(productDetail);
     return (
         <div className="card w-96 bg-base-100 shadow-xl">
             <figure className="px-10 pt-10">

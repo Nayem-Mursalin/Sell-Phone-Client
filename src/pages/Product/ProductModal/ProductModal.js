@@ -11,11 +11,39 @@ const ProductModal = ({ productDetail, setProductDetail }) => {
         event.preventDefault();
         const form = event.target;
         const address = form.address.value;
-        const name = form.name.value;
-        const email = form.email.value;
         const phone = form.phone.value;
         // console.log(product_name, phone);
         toast(`${product_name} is Booked`);
+
+        const order = {
+            name: product_name,
+            email,
+            address,
+            phone,
+            price: new_price,
+            picture,
+        }
+        console.log(order);
+
+        fetch('http://localhost:5500/orders', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(order)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.acknowledged) {
+
+                    setProductDetail(null);
+                    toast.success('Order Confirmed');
+                }
+                else {
+                    toast.error(data.message);
+                }
+            })
     }
     return (
         <div>
