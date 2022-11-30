@@ -3,11 +3,19 @@ import { useForm } from "react-hook-form";
 import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthProvider';
+import useToken from '../../hooks/useToken';
 
 const SignUp = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
     const [signUpError, setSignUpError] = useState('');
+    const [createdEmail, setCreatedEmail] = useState('');
+
+    const [token] = useToken(createdEmail)
     const navigate = useNavigate();
+
+    if (token) {
+        navigate('/');
+    }
 
     const { createUser, updateUser, googleSignIn, googleProvider } = useContext(AuthContext);
 
@@ -23,8 +31,7 @@ const SignUp = () => {
                 }
                 updateUser(userInfo)
                     .then(() => {
-                        navigate('/');
-                        // saveUser(data.name, data.email);
+                        saveUser(data.name, data.email, data.role);
                     })
                     .catch(error => console.log(error))
             })
@@ -39,9 +46,34 @@ const SignUp = () => {
             .then(result => {
                 const user = result.user;
                 console.log(user);
+                const userInfo = {
+                    displayName: user.name
+                }
+                updateUser(userInfo)
+                    .then(() => {
+                        saveUser(user.name, user.email, 'buyes');
+                    })
+                    .catch(error => console.log(error))
             })
             .catch(err => console.error(err));
     }
+
+    const saveUser = (name, email, role) => {
+        const user = { name, email, role };
+        fetch(`http://localhost:5500/users`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+            .then(res => res.json())
+            .then(data => {
+                setCreatedEmail(email);
+            })
+    }
+
+
 
     return (
         <div className='h-[800px] flex justify-center items-center'>
@@ -74,7 +106,7 @@ const SignUp = () => {
                     </div>
                     <div className='form-control w-full w-max-xs'>
                         <label className='label'> <span className='label-text'>Select a User Type</span></label>
-                        <select {...register("type", {
+                        <select {...register("role", {
                             required: "User Type is Required"
                         })}
                             className="input input-bordered w-full max-w-xs">

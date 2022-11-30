@@ -12,12 +12,13 @@ const ProductModal = ({ productDetail, setProductDetail }) => {
         const form = event.target;
         const address = form.address.value;
         const phone = form.phone.value;
+        const userEmail = form.email.value;
         // console.log(product_name, phone);
         toast(`${product_name} is Booked`);
 
         const order = {
             name: product_name,
-            email,
+            email: userEmail,
             address,
             phone,
             price: new_price,
