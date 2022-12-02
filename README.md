@@ -1,25 +1,21 @@
 # Welcome to SellPhone
 
-## Name: Kitchen Food
+# Name: Kitchen Food
 
-## Used technology: React, tailwind, DaisyUI, firebase
+Used technology: React, tailwind, DaisyUI, firebase
 
 ## Feature:
 
-## 1. You Can Log in With Email & Google.
+1. You Can Log in With Email & Google.
 
-## 2. Admin Can Delete Seller And buyer
+2. Admin Can Delete Seller And buyer
 
-## 3. You Can find 3 category phone in our website
+3. You Can find 3 category phone in our website
 
-## 4. You can See your order in my order section
+4. You can See your order in my order section
 
-## 5. Without login you cant see dashboard
-
-##
+5. Without login you cant see dashboard
 
 ### admin: ananta@jolil.com
 
 ### Pass: 121212
-
-\*\*
