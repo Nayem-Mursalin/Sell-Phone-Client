@@ -1,7 +1,7 @@
 import React from 'react';
 
 const AdvItem = ({ product }) => {
-    const { _id, picture, product_name } = product;
+    const { picture, product_name } = product;
     return (
         <div className={`p-6 card md:card-side shadow-xl`}>
             <figure><img src={picture} alt="Phone" /></figure>

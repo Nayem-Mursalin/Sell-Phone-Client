@@ -36,12 +36,10 @@ const AllSeller = () => {
             .then(data => {
                 console.log(data);
                 if (data.modifiedCount > 0) {
-                    const remaining = users.filter(odr => odr._id !== id);
+                    // const remaining = users.filter(odr => odr._id !== id);
                     const approving = users.find(odr => odr._id === id);
-                    approving.status = 'ok'
-
-                    // const newOrders = [approving, ...remaining];
-                    // setOrders(newOrders);
+                    approving.status = 'true';
+                    toast(`User Verified`);
                 }
             })
     }
@@ -86,7 +84,10 @@ const AllSeller = () => {
                                 <th>{i + 1}</th>
                                 <td>{user.name}</td>
                                 <td>{user.email}</td>
-                                <td>{user?.role !== 'admin' && <button onClick={() => handleMakeVerify(user._id)} className='btn btn-xs btn-primary'>Make verify</button>}</td>
+                                <td>{user.status === 'true' ?
+                                    <p className='text-green-600'>Verified</p>
+                                    :
+                                    user?.role !== 'admin' && <button onClick={() => handleMakeVerify(user._id)} className='btn btn-xs btn-primary'>Make verify</button>}</td>
                                 <td>
                                     <label onClick={() => setDeletinguser(user)} htmlFor="confirmation-modal" className="btn btn-sm btn-error">Delete</label>
                                 </td>
