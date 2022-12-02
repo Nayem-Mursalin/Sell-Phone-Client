@@ -1,8 +1,6 @@
 # Welcome to SellPhone
 
-# Name: Kitchen Food
-
-Used technology: React, tailwind, DaisyUI, firebase
+Used technology: React, tailwind, DaisyUI, firebase, stripe, reactrouer
 
 ## Feature:
 
