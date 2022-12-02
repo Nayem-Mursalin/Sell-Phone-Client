@@ -9,15 +9,15 @@ const SignUp = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
     const [signUpError, setSignUpError] = useState('');
     const [createdEmail, setCreatedEmail] = useState('');
+    const { createUser, updateUser, googleSignIn, googleProvider } = useContext(AuthContext);
 
-    const [token] = useToken(createdEmail)
+    const [token] = useToken(createdEmail);
     const navigate = useNavigate();
 
     if (token) {
         navigate('/');
     }
 
-    const { createUser, updateUser, googleSignIn, googleProvider } = useContext(AuthContext);
 
     const handleSignIn = (data) => {
         setSignUpError('');
@@ -42,16 +42,18 @@ const SignUp = () => {
     }
 
     const handlegoogleSignin = (provider) => {
+        setSignUpError('');
         googleSignIn(googleProvider)
             .then(result => {
                 const user = result.user;
                 console.log(user);
+                toast('User Created Successfully');
                 const userInfo = {
                     displayName: user.name
                 }
                 updateUser(userInfo)
                     .then(() => {
-                        saveUser(user.name, user.email, 'buyes');
+                        saveUser(user.name, user.email, 'buyer');
                     })
                     .catch(error => console.log(error))
             })
@@ -60,7 +62,7 @@ const SignUp = () => {
 
     const saveUser = (name, email, role) => {
         const user = { name, email, role };
-        fetch(`http://localhost:5500/users`, {
+        fetch(`https://resale-market-server-nayem-mursalin.vercel.app/users`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'

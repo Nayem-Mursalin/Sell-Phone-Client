@@ -1,10 +1,16 @@
 import React, { useContext } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useLoaderData } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthProvider';
+import useAdmin from '../hooks/useAdmin';
 import Navbar from '../pages/Shared/Navbar/Navbar';
 
 const DashBoardLayout = () => {
+    const alluser = useLoaderData();
     const { user } = useContext(AuthContext);
+    const [isAdmin] = useAdmin(user?.email);
+    // console.log(alluser);
+    const currentUser = alluser.find(i => i.email === user.email);
+    // console.log(currentUser);
     return (
         <div>
             <Navbar></Navbar>
@@ -16,20 +22,30 @@ const DashBoardLayout = () => {
                 <div className="drawer-side">
                     <label htmlFor="dashboard-drawer" className="drawer-overlay"></label>
                     <ul className="menu p-4 w-80 text-base-content">
-                        <li><Link to='/dashboard/myorders'>Orders</Link></li>
-                        <li><Link to='/dashboard/allusers'>All User</Link></li>
-                        {/* {
+
+                        {
                             isAdmin && <>
-                                <li><Link to='/dashboard/allusers'>All Seller</Link></li>
-                                <li><Link to='/dashboard/allbuyers'>All Buyer</Link></li>
-                                <li><Link to='/dashboard/managedoctors'>Manage Seller</Link></li>
+                                <li><Link to='/dashboard/allusers'>All User</Link></li>
+                                <li><Link to='/dashboard/allseller'>All Seller</Link></li>
                             </>
-                        } */}
+                        }
+                        {
+                            !isAdmin && currentUser.role === 'Seller' && <>
+
+                                <li><Link to='/dashboard/addproduct'>Add Product</Link></li>
+                                <li><Link to='/dashboard/myproduct'>My Product</Link></li>
+                            </>
+                        }
+                        {
+                            currentUser.role === 'buyer' && <>
+                                <li><Link to='/dashboard/myorders'>My Orders</Link></li>
+                            </>
+                        }
                     </ul>
 
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

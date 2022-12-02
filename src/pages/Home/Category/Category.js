@@ -9,7 +9,7 @@ const Category = () => {
 
     const { data: products = [], refetch, isLoading } = useQuery({
         queryKey: ['products'],
-        queryFn: () => fetch(`http://localhost:5500/products`)
+        queryFn: () => fetch(`https://resale-market-server-nayem-mursalin.vercel.app/products`)
             .then(res => res.json())
     });
     // console.log(products);

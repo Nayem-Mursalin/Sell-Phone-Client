@@ -4,12 +4,12 @@ import toast from 'react-hot-toast';
 import Loading from '../../Shared/Loading/Loading';
 import ConfirmationModal from '../../Shared/ConfirmationModal/ConfirmationModal';
 
-
-const AllUsers = () => {
+const AllSeller = () => {
     const [deletinguser, setDeletinguser] = useState(null);
     const closeModal = () => {
         setDeletinguser(null);
     }
+
     const { data: users = [], isLoading, refetch } = useQuery({
         queryKey: ['users'],
         queryFn: async () => {
@@ -18,21 +18,30 @@ const AllUsers = () => {
             return data;
         }
     })
+    // console.log(users);
+    const user = users.filter(i => i.role === 'Seller');
 
-    const user = users.filter(i => i.role === 'buyer');
 
-    const handleMakeAdmin = (id) => {
-        fetch(`https://resale-market-server-nayem-mursalin.vercel.app/users/admin/${id}`, {
-            method: 'PUT',
+
+    const handleMakeVerify = (id) => {
+        fetch(`https://resale-market-server-nayem-mursalin.vercel.app/users/${id}`, {
+            method: 'PATCH',
             headers: {
+                'content-type': 'application/json',
                 authorization: `bearer ${localStorage.getItem('accessToken')}`
-            }
+            },
+            body: JSON.stringify()
         })
             .then(res => res.json())
             .then(data => {
+                console.log(data);
                 if (data.modifiedCount > 0) {
-                    toast.success('Make Admin Succesful');
-                    refetch();
+                    const remaining = users.filter(odr => odr._id !== id);
+                    const approving = users.find(odr => odr._id === id);
+                    approving.status = 'ok'
+
+                    // const newOrders = [approving, ...remaining];
+                    // setOrders(newOrders);
                 }
             })
     }
@@ -56,10 +65,9 @@ const AllUsers = () => {
     if (isLoading) {
         return <Loading></Loading>
     }
-
     return (
         <div>
-            <h2 className="text-3xl">All Users</h2>
+            <h2 className="text-3xl">All Sellers</h2>
             <div className="overflow-x-auto">
                 <table className="table w-full">
 
@@ -68,6 +76,7 @@ const AllUsers = () => {
                             <th></th>
                             <th>Name</th>
                             <th>Email</th>
+                            <th>Verification</th>
                             <th>Delete</th>
                         </tr>
                     </thead>
@@ -77,6 +86,7 @@ const AllUsers = () => {
                                 <th>{i + 1}</th>
                                 <td>{user.name}</td>
                                 <td>{user.email}</td>
+                                <td>{user?.role !== 'admin' && <button onClick={() => handleMakeVerify(user._id)} className='btn btn-xs btn-primary'>Make verify</button>}</td>
                                 <td>
                                     <label onClick={() => setDeletinguser(user)} htmlFor="confirmation-modal" className="btn btn-sm btn-error">Delete</label>
                                 </td>
@@ -99,4 +109,4 @@ const AllUsers = () => {
     );
 };
 
-export default AllUsers;
+export default AllSeller;

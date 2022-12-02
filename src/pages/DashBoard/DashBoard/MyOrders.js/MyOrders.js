@@ -5,7 +5,7 @@ import { AuthContext } from '../../../../contexts/AuthProvider';
 
 const MyOrders = () => {
     const { user } = useContext(AuthContext);
-    const url = `http://localhost:5500/orders?email=${user?.email}`;
+    const url = `https://resale-market-server-nayem-mursalin.vercel.app/orders?email=${user?.email}`;
 
     const { data: orders = [] } = useQuery({
         queryKey: ['orders', user.email],
@@ -31,15 +31,28 @@ const MyOrders = () => {
                             <td>Name</td>
                             <td>Price</td>
                             <td>Address</td>
+                            <td>Payment</td>
                         </tr>
                     </thead>
                     <tbody>
                         {
+                            orders &&
                             orders?.map((order, index) => <tr key={order._id}>
                                 <th>{index + 1}</th>
                                 <th>{order.name}</th>
                                 <th>{order.price}</th>
                                 <th>{order.address}</th>
+                                <th>
+                                    {
+                                        !order.paid &&
+                                        <button className='btn btn-primary btn-sm'>
+                                            <Link to={`/dashboard/payment/${order._id}`}>Pay</Link>
+                                        </button>
+                                    }
+                                    {
+                                        order.paid && <span className='text-green-500'>Paid</span>
+                                    }
+                                </th>
                             </tr>)
                         }
                     </tbody>

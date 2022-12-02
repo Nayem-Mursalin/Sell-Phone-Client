@@ -34,6 +34,7 @@ const Login = () => {
     }
 
     const handlegoogleSignin = (provider) => {
+        setLoginError('');
         googleSignIn(googleProvider)
             .then(result => {
                 const user = result.user;

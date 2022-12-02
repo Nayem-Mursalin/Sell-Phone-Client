@@ -13,8 +13,6 @@ const Navbar = () => {
 
     const menuItems = <React.Fragment>
         <li><Link to='/'>Home</Link></li>
-        <li><Link to='/'>Shop</Link></li>
-        <li><Link to='/'>About</Link></li>
         <li><Link to='/blog'>Blog</Link></li>
         {user?.uid ?
             <>
@@ -42,6 +40,9 @@ const Navbar = () => {
                     {menuItems}
                 </ul>
             </div>
+            <label tabIndex={3} htmlFor="dashboard-drawer" className="btn btn-ghost lg:hidden">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
+            </label>
         </div>
     );
 };

@@ -26,7 +26,7 @@ const ProductModal = ({ productDetail, setProductDetail }) => {
         }
         console.log(order);
 
-        fetch('http://localhost:5500/orders', {
+        fetch('https://resale-market-server-nayem-mursalin.vercel.app/orders', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
