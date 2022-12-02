@@ -7,6 +7,7 @@ const CategoryItem = ({ product }) => {
         <div className={`p-6 card md:card-side shadow-xl`}>
             <figure><img src={categoryImg} alt="Phone" /></figure>
             <div className="card-body">
+                <h2 className="text-yellow-600">CategoryItem</h2>
                 <h2 className="card-title">{category}</h2>
                 <button className='btn'><Link to={`/category/${_id}`}>View All</Link></button>
             </div>
