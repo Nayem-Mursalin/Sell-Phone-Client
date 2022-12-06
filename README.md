@@ -1,5 +1,7 @@
 # Welcome to SellPhone
 
+## Live Site: https://sell-phone-eb036.web.app/
+
 Used technology: React, tailwind, DaisyUI, firebase, stripe, reactrouer
 
 ## Feature:
